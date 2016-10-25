@@ -21,7 +21,7 @@ public class MainServer {
 			mapper.insertPlayerBean(pb);
 			sqlSession.commit();
 		}catch(Throwable t){
-			LSLogger.errorLogger(MainServer.class, t.getMessage());
+			LSLogger.errorLogger(MainServer.class, t);
 		}finally {
 			if(sqlSession!=null){
 				sqlSession.close();

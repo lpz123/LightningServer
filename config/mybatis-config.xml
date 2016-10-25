@@ -15,8 +15,8 @@
 				<property name="autoComit" value="false"/>
 			</transactionManager>
 			<dataSource type="POOLED">
-				<property name="driver" value="com.mysql.jdbc.Driver" />
-				<property name="url" value="jdbc:mysql://localhose:3306/game01" />
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhose:3306/game01"/>
 				<property name="username" value="root" />
 				<property name="password" value="123123" />
 			</dataSource>
@@ -24,7 +24,7 @@
 	</environments>
 
 	<mappers>
-		<mapper resource="com/maven/lupz/java/LightningServer/database/player/playerMapper.xml" />
+		<mapper resource="com/maven/lupz/java/LightningServer/database/player/playerMapper.xml"/>
 	</mappers>
 
 </configuration>
