@@ -5,9 +5,14 @@
 
 <configuration>
 
-	<typeAliases>
-		<typeAlias alias="playerBean" type="com.maven.lupz.java.LightningServer.database.player.PlayerBean"/>
-	</typeAliases>
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+		<!-- 延迟加载属性，默认true，一般映射都会这样做 -->
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="defaultStatementTimeout" value="25000" />
+	</settings>
 
 	<environments default="development">
 		<environment id="development">
@@ -16,7 +21,7 @@
 			</transactionManager>
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver"/>
-				<property name="url" value="jdbc:mysql://127.0.0.1:3306/game01"/>
+				<property name="url" value="jdbc:mysql://127.0.0.1:3306/game01?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
 				<property name="username" value="root" />
 				<property name="password" value="123456" />
 			</dataSource>
@@ -24,7 +29,7 @@
 	</environments>
 
 	<mappers>
-		<mapper resource="com/maven/lupz/java/LightningServer/database/player/playerMapper.xml"/>
+		<mapper resource="com/maven/lupz/java/LightningServer/database/mysql/logic/player/playerMapper.xml"/>
 	</mappers>
 
 </configuration>
