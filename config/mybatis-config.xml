@@ -16,7 +16,7 @@
 			</transactionManager>
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver"/>
-				<property name="url" value="jdbc:mysql://localhose:3306/game01"/>
+				<property name="url" value="jdbc:mysql://127.0.0.1:3306/game01"/>
 				<property name="username" value="root" />
 				<property name="password" value="123456" />
 			</dataSource>

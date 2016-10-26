@@ -5,8 +5,9 @@
 
 <mapper namespace="com.maven.lupz.java.LightningServer.database.player.PlayerMapper">
 
-	<insert id="insertPlayerBean" parameterType="com.maven.lupz.java.LightningServer.database.player.PlayerBean">
-		insert into t_game_role(roleId,roleName,level) values(#{roleId},#{roleName},#{level})
+	<!-- 主键自增，主键返回 -->
+	<insert id="insertPlayerBean" keyProperty="roleId" useGeneratedKeys="true" parameterType="com.maven.lupz.java.LightningServer.database.player.PlayerBean">
+		insert into t_game_role(roleName,level) values(#{roleName},#{level})
 	</insert>
 	
 	<select id="getPlayerBean" parameterType="long" resultType="com.maven.lupz.java.LightningServer.database.player.PlayerBean">

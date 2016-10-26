@@ -15,10 +15,10 @@ public class MainServer {
 			sqlSession=SqlSessionFactoryUtil.getInstance().openSqlSession();
 			PlayerMapper mapper=sqlSession.getMapper(PlayerMapper.class);
 			PlayerBean pb=new PlayerBean();
-			pb.setRoleId(1);
 			pb.setRoleName("掌上明珠");
 			pb.setLevel(1);
 			mapper.insertPlayerBean(pb);
+			System.out.println(pb.getRoleId());
 			sqlSession.commit();
 		}catch(Throwable t){
 			LSLogger.errorLogger(MainServer.class, t);
