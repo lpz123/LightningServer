@@ -26,15 +26,15 @@ public class LSGameManage {
 	//初始化对象数据
 	public void init(String[] args){
 		/***********堆栈数据日志****************/
-		PrintStream cPrintStream = null;
-		try {
-			Date d = new Date();
-			cPrintStream = new PrintStream(new FileOutputStream("log/exception.log." + DateFormat.getDateInstance(DateFormat.DEFAULT).format(d), true));
-			cPrintStream.println((new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
-			System.setErr(cPrintStream);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		PrintStream cPrintStream = null;
+//		try {
+//			Date d = new Date();
+//			cPrintStream = new PrintStream(new FileOutputStream("log/exception.log." + DateFormat.getDateInstance(DateFormat.DEFAULT).format(d), true));
+//			cPrintStream.println((new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
+//			System.setErr(cPrintStream);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		/***********通信初始化****************/
 	}
