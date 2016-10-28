@@ -1,0 +1,15 @@
+option java_package="com.maven.lupz.java.LightningServer.database.redis.proto";
+option java_outer_classname="redis_proto";
+
+// required repeated optional
+//****************************************************************序列化与反序列化对象
+message RedisGroup{
+
+	optional Redis_Player redis_player = 1;
+	message Redis_Player{
+		optional string roleId=1;
+		optional string roleName=2;
+		optional int32 level=3;
+	}
+
+}
