@@ -33,7 +33,7 @@ public class RedisPoolUtil {
     static {
         try {
             JedisPoolConfig config = new JedisPoolConfig();
-            // 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true
+            //连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true
             config.setBlockWhenExhausted(true);
             // 设置的逐出策略类名, 默认DefaultEvictionPolicy(当连接超过最大空闲时间,或连接数超过最大空闲连接数)
             config.setEvictionPolicyClassName("org.apache.commons.pool2.impl.DefaultEvictionPolicy");
@@ -99,10 +99,16 @@ public class RedisPoolUtil {
 		}
     }
     
-    public static void addObj(String roleId,byte[] byteArray){
+    /**
+     * 添加
+     */
+    public static void addObj(String dbName,String roleId,byte[] byteArray){
     	Jedis jedis=getJedis();
     	try{
-    		jedis.set(roleId.getBytes(), byteArray);
+    		Map<byte[],byte[]> newMap=new HashMap<>();
+    		newMap.put(roleId.getBytes(), byteArray);
+    		jedis.hmset(dbName.getBytes(), newMap);
+//    		jedis.set(roleId.getBytes(), byteArray);
     	}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -112,10 +118,42 @@ public class RedisPoolUtil {
 		}
     }
     
-    public static byte[] getObj(String roleId){
+    /**
+     * 批量添加
+     */
+    public static void addSomeObj(String dbName,Map<String,byte[]> map){
     	Jedis jedis=getJedis();
     	try{
-    		return jedis.get(roleId.getBytes());
+    		Map<byte[],byte[]> newMap=new HashMap<>();
+    		for(String str:map.keySet()){
+    			newMap.put(str.getBytes(), map.get(str));
+    		}
+    		jedis.hmset(dbName.getBytes(), newMap);
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(jedis!=null){
+				close(jedis);
+			}
+		}
+    }
+    
+    /**
+     * 清空库
+     */
+    public static void flushAll(){
+    	Jedis jedis=getJedis();
+    	jedis.flushAll();
+    }
+    
+    /**
+     * 通过库name和角色id获取角色数据
+     */
+    public static byte[] getObj(String dbName,String roleId){
+    	Jedis jedis=getJedis();
+    	try{
+    		List<byte[]> roleByte=jedis.hmget(dbName.getBytes(), roleId.getBytes());
+    		return roleByte.get(0);
     	}catch (Exception e) {
 			e.printStackTrace();
 		}finally {

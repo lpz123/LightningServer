@@ -1,5 +1,8 @@
 package com.maven.lupz.java.LightningServer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.maven.lupz.java.LightningServer.database.redis.logic.RedisPoolUtil;
 import com.maven.lupz.java.LightningServer.database.redis.proto.redis_proto.RedisGroup;
@@ -11,23 +14,35 @@ public class RedisTest {
 	public static void main(String[] args) {
 		LSGameManage.getInstance().init(args);
 		
-		RedisGroup.Redis_Player.Builder redisPlayer=RedisGroup.Redis_Player.newBuilder();
-    	String onlyId=RedisPoolUtil.getOnlyId();
-    	redisPlayer.setRoleId(onlyId);
-    	redisPlayer.setRoleName("闪电");
-    	redisPlayer.setLevel(1);
-    	
-		RedisPoolUtil.addObj(onlyId,redisPlayer.build().toByteArray());
+		RedisPoolUtil.flushAll();
 		
-		byte[] redisPlayerbyte=RedisPoolUtil.getObj(onlyId);
-		RedisGroup.Redis_Player redisPlayer2=null;
-		try {
-			redisPlayer2=RedisGroup.Redis_Player.parseFrom(redisPlayerbyte);
-		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
+		String dbName="game01";
+		
+//		//单一添加
+//		long time=System.currentTimeMillis();
+//		for(int i=0;i<100000;i++){
+//			RedisGroup.Redis_Player.Builder redisPlayer=RedisGroup.Redis_Player.newBuilder();
+//	    	String onlyId=RedisPoolUtil.getOnlyId();
+//	    	redisPlayer.setRoleId(onlyId);
+//	    	redisPlayer.setRoleName("闪电");
+//	    	redisPlayer.setLevel(1);
+//			RedisPoolUtil.addObj(dbName,onlyId,redisPlayer.build().toByteArray());
+//		}
+		
+		//批量添加1
+		Map<String,byte[]> newMap=new HashMap<>();
+		for(int i=0;i<100000;i++){
+			RedisGroup.Redis_Player.Builder redisPlayer=RedisGroup.Redis_Player.newBuilder();
+			String onlyId=RedisPoolUtil.getOnlyId();
+			redisPlayer.setRoleId(onlyId);
+	    	redisPlayer.setRoleName("闪电");
+	    	redisPlayer.setLevel(1);
+	    	newMap.put(onlyId, redisPlayer.build().toByteArray());
 		}
-		System.out.println(redisPlayer2.toString());
+		long time=System.currentTimeMillis();
+		RedisPoolUtil.addSomeObj(dbName, newMap);
 
+		System.out.println(System.currentTimeMillis()-time);
 	}
 
 }
