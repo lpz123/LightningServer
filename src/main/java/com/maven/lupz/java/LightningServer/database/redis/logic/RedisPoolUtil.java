@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.maven.lupz.java.LightningServer.LSGameManage;
 import com.maven.lupz.java.LightningServer.database.redis.proto.redis_proto;
 import com.maven.lupz.java.LightningServer.database.redis.proto.redis_proto.RedisGroup;
 
@@ -19,11 +20,11 @@ import redis.clients.jedis.JedisPoolConfig;
 public class RedisPoolUtil {
 	private static JedisPool jedisPool = null;
     // Redis服务器IP
-    private static String ADDRESS = "192.168.91.4";
+    private static String ADDRESS;
     // Redis的端口号
-    private static int PORT = 6379;
+    private static int PORT;
     // 访问密码
-    private static String AUTH = "123456";
+    private static String AUTH;
     //锁
     private static Object lock=new Object();
 
@@ -41,12 +42,17 @@ public class RedisPoolUtil {
             config.setJmxEnabled(true);
             // 最大空闲连接数, 默认8个 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。
             config.setMaxIdle(8);
-            // 最大连接数, 默认8个
+            // 最大连接数, 默认200个
             config.setMaxTotal(200);
             // 表示当borrow(引入)一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException；
             config.setMaxWaitMillis(1000 * 100);
             // 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
             config.setTestOnBorrow(true);
+            
+            ADDRESS=LSGameManage.getInstance().getProp().getProperty("redisAddress").trim();
+            PORT=Integer.parseInt(LSGameManage.getInstance().getProp().getProperty("redisPort").trim());
+            AUTH=LSGameManage.getInstance().getProp().getProperty("auth").trim();
+            
             jedisPool = new JedisPool(config, ADDRESS, PORT, 3000, AUTH);
         } catch (Exception e) {
             e.printStackTrace();

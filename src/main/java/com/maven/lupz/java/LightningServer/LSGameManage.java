@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -23,6 +24,12 @@ public class LSGameManage {
 		return instance;
 	}
 	
+	private Properties prop=null;//配置文件读取
+
+	public Properties getProp() {
+		return prop;
+	}
+
 	//初始化对象数据
 	public void init(String[] args){
 		/***********堆栈数据日志****************/
@@ -35,6 +42,14 @@ public class LSGameManage {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
+		
+		/***********properties初始化****************/
+		prop = new Properties();
+		try {
+			prop.load(Object.class.getResourceAsStream("/LS.properties"));			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		/***********通信初始化****************/
 	}
