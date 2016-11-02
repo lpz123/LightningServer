@@ -3,18 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.maven.lupz.java.LightningServer.database.mysql.logic.player.PlayerMapper">
+<mapper namespace="com.maven.lupz.java.LightningServer.database.mysql.logic.player.IPlayerMapper">
 
 	<!-- 主键自增，主键返回 -->
-	<insert id="insertPlayerBean" keyProperty="roleId" useGeneratedKeys="true" parameterType="com.maven.lupz.java.LightningServer.database.mysql.logic.player.PlayerBean">
+	<insert id="insertPlayerBean" keyProperty="roleId" useGeneratedKeys="true" parameterType="playerBean">
 		insert into t_game_role(roleName,level) values(#{roleName},#{level})
 	</insert>
 	
-	<select id="getPlayerBean" parameterType="long" resultType="com.maven.lupz.java.LightningServer.database.mysql.logic.player.PlayerBean">
+	<select id="getPlayerBean" parameterType="long" resultType="playerBean">
 		select * from t_game_role where roleId = #{roleId}
 	</select>
 	
-	<update id="updatePlayerBean" parameterType="com.maven.lupz.java.LightningServer.database.mysql.logic.player.PlayerBean">
+	<update id="updatePlayerBean" parameterType="playerBean">
 		update t_game_role set roleName=#{roleName},level=#{level} where roleId=#{roleId}
 	</update>
 

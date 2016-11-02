@@ -15,6 +15,10 @@
 		<setting name="lazyLoadingEnabled" value="true" />
 		<setting name="defaultStatementTimeout" value="25000" />
 	</settings>
+	
+	<typeAliases>
+		<package name="com.maven.lupz.java.LightningServer.database.mysql"/>
+	</typeAliases>
 
 	<environments default="development">
 		<environment id="development">

@@ -1,5 +1,8 @@
 package com.maven.lupz.java.LightningServer.database.mysql.logic.player;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias(value = "playerBean")
 public class PlayerBean {
 
 	private long roleId;
