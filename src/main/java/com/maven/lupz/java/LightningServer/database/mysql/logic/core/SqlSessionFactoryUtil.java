@@ -1,4 +1,4 @@
-package com.maven.lupz.java.LightningServer.database.mysql.logic;
+package com.maven.lupz.java.LightningServer.database.mysql.logic.core;
 
 import java.io.IOException;
 import java.io.InputStream;

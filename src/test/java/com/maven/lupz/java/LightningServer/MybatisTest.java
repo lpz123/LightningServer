@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.maven.lupz.java.LightningServer.database.mysql.logic.SqlSessionFactoryUtil;
+import com.maven.lupz.java.LightningServer.database.mysql.logic.core.SqlSessionFactoryUtil;
 import com.maven.lupz.java.LightningServer.database.mysql.logic.player.PlayerBean;
 import com.maven.lupz.java.LightningServer.database.mysql.logic.player.PlayerMapper;
 

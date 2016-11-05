@@ -11,7 +11,7 @@ import java.util.Properties;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.maven.lupz.java.LightningServer.database.mysql.logic.SqlSessionFactoryUtil;
+import com.maven.lupz.java.LightningServer.database.mysql.logic.core.SqlSessionFactoryUtil;
 import com.maven.lupz.java.LightningServer.tool.LSLogger;
 
 public class LSGameManage {
@@ -30,9 +30,13 @@ public class LSGameManage {
 		return prop;
 	}
 
-	//初始化对象数据
+	/**
+	 * 初始化对象数据
+	 * @param args
+	 * @warning 每个方法块的注释标识了顺序，严格按照顺序执行
+	 */
 	public void init(String[] args){
-		/***********堆栈数据日志****************/
+		/***********NO.1 堆栈数据日志****************/
 //		PrintStream cPrintStream = null;
 //		try {
 //			Date d = new Date();
@@ -43,7 +47,7 @@ public class LSGameManage {
 //			e.printStackTrace();
 //		}
 		
-		/***********properties初始化****************/
+		/***********NO.2 properties初始化****************/
 		prop = new Properties();
 		try {
 			prop.load(Object.class.getResourceAsStream("/LS.properties"));			
