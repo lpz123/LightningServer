@@ -24,11 +24,15 @@ public class MongoDao{
 	 * @param tableName 表名
 	 * @param objList 插入数据对象集合
 	 */
-	public static void insertDB(String tableName,BasicDBObject ...objList){
+	public static void insertDB(String tableName,ISaveInter ...objList){
 		long startTime=System.currentTimeMillis();
 		DBCollection collection=manager.getDBCollection(tableName);
 		System.out.println("插入“"+tableName+"”表前共有"+collection.count()+"条数据");
-		collection.insert(objList);
+		DBObject[] Objs=new DBObject[objList.length];
+		for(int i=0;i<objList.length;i++){
+			Objs[i]=objList[i].getBasicDBObject();
+		}
+		collection.insert(Objs);
 		System.out.println("插入“"+tableName+"”表后共有"+collection.count()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
 	}
 	
@@ -63,12 +67,12 @@ public class MongoDao{
 	 * @param tableName 表名
 	 * @return
 	 */
-	public static List<DBObject> selectDB(String tableName){
+	public static List<BasicDBObject> selectDB(String tableName){
 		long startTime=System.currentTimeMillis();
-		List<DBObject> list=new ArrayList<>();
+		List<BasicDBObject> list=new ArrayList<>();
 		DBCursor curAll=manager.getDBCollection(tableName).find();
 		while(curAll.hasNext()){
-			list.add(curAll.next());
+			list.add((BasicDBObject) curAll.next());
 		}
 		System.out.println("查询“"+tableName+"”表所有数据,共有:"+list.size()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
 		return list;

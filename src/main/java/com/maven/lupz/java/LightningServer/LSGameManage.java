@@ -11,6 +11,7 @@ import java.util.Properties;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoConfig;
 import com.maven.lupz.java.LightningServer.database.mysql.logic.core.SqlSessionFactoryUtil;
 import com.maven.lupz.java.LightningServer.tool.LSLogger;
 
@@ -54,6 +55,14 @@ public class LSGameManage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		/***********NO.3 mongodb初始化****************/
+		String[] address={this.getProp().getProperty("mongoAddress").trim()};
+		int[] prot={Integer.parseInt(this.getProp().getProperty("mongoPort").trim())};
+		String dbname=this.getProp().getProperty("mongo.dbname").trim();
+		MongoConfig.setHost(address);
+		MongoConfig.setPort(prot);
+		MongoConfig.setDbName(dbname);
 		
 		/***********通信初始化****************/
 	}
