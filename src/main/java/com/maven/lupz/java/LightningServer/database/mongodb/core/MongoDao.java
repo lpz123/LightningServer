@@ -6,87 +6,105 @@ import java.util.Map;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
-public class MongoDao {
+/**
+ * 
+ * @author lupz
+ *
+ */
+public class MongoDao{
 	private static MongoManager manager=MongoManager.getInstance();
 	
-	public static void insert(String tabName,Object obj){
-		
-	}
-
 	/**
-	 * 查询
+	 * 插入数据
 	 * @param tableName 表名
-	 * @param eSelectMongo 查询类型的枚举   ALL全部数据   WHERE条件查询
-	 * @param map 条件查询map 可以为null
-	 * @return
+	 * @param objList 插入数据对象集合
 	 */
-//	public static List<DBObject> selectDB(String tableName,ESelectMongo eSelectMongo,Map<String,String> map){
-//		List<DBObject> list=new ArrayList<>();
-//		switch(eSelectMongo){
-//		case ALL:
-//			DBCursor curAll=manager.getDBCollection(tableName).find();
-//			while(curAll.hasNext()){
-//				list.add(curAll.next());
-//			}
-//			break;
-//		case WHERE:
-////			BasicDBList condList = new BasicDBList(); 
-//			BasicDBObject cond=new BasicDBObject();
-////			cond.put(key, val)
-//			for(String str:map.keySet()){
-//				cond.put(str, map.get(str));
-//			}
-////			condList.add(cond);
-//			DBCursor curOne=manager.getDBCollection(tableName).find(cond);
-//			while(curOne.hasNext()){
-//				list.add(curOne.next());
-//			}
-//			break;
-//		}
-//		return list;
-//	}
+	public static void insertDB(String tableName,BasicDBObject ...objList){
+		long startTime=System.currentTimeMillis();
+		DBCollection collection=manager.getDBCollection(tableName);
+		System.out.println("插入“"+tableName+"”表前共有"+collection.count()+"条数据");
+		collection.insert(objList);
+		System.out.println("插入“"+tableName+"”表后共有"+collection.count()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
+	}
 	
 	/**
-	 * 查询全部
+	 * 删除表
+	 * @param tableNameList 表名集合
+	 */
+	public static void deleteDB(String ...tableNameList){
+		for(String str:tableNameList){
+			manager.getDBCollection(str).drop();
+			System.out.println("删除“"+str+"”表成功");
+		}
+	}
+	
+	/**
+	 * 条件删除
+	 * @param tableName 表名
+	 * @param map 查询条件  Map<String,Object>
+	 */
+	public static void deleteDB(String tableName,Map<String,Object> map){
+		long startTime=System.currentTimeMillis();
+		DBCollection collection=manager.getDBCollection(tableName);
+		System.out.println("删除“"+tableName+"”表前的count="+collection.count());
+		BasicDBObject cond=new BasicDBObject();
+		cond.putAll(map);
+		manager.getDBCollection(tableName).remove(cond);
+		System.out.println("删除“"+tableName+"”表后的count="+collection.count()+"    总耗时:"+(System.currentTimeMillis()-startTime));
+	}
+	
+	/**
+	 * 查询该表所有数据
 	 * @param tableName 表名
 	 * @return
 	 */
-	public static List<DBObject> selectDBAll(String tableName){
+	public static List<DBObject> selectDB(String tableName){
+		long startTime=System.currentTimeMillis();
 		List<DBObject> list=new ArrayList<>();
 		DBCursor curAll=manager.getDBCollection(tableName).find();
 		while(curAll.hasNext()){
 			list.add(curAll.next());
 		}
+		System.out.println("查询“"+tableName+"”表所有数据,共有:"+list.size()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
 		return list;
 	}
 	
 	/**
-	 * 查询单条数据
+	 * 条件查询
 	 * @param tableName 表名
 	 * @param map 查询条件  Map<String,Object>
 	 * @return
 	 */
-	public static List<DBObject> selectDBOne(String tableName,Map<String,Object> map){
+	public static List<DBObject> selectDB(String tableName,Map<String,Object> map){
+		long startTime=System.currentTimeMillis();
 		List<DBObject> list=new ArrayList<>();
-//		BasicDBList condList = new BasicDBList(); 
 		BasicDBObject cond=new BasicDBObject();
 		cond.putAll(map);
-//		cond.put(key, val)
-//		for(String str:map.keySet()){
-//			cond.put(str, map.get(str));
-//		}
-//		condList.add(cond);
 		DBCursor curOne=manager.getDBCollection(tableName).find(cond);
 		while(curOne.hasNext()){
 			list.add(curOne.next());
 		}
+		System.out.println("条件查询“"+tableName+"”表数据,共有:"+list.size()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
 		return list;
 	}
 	
-//	public enum ESelectMongo{
-//		ALL,WHERE;
-//	}
+	/**
+	 * 条件更新
+	 * @param tableName
+	 * @param queryMap 查询条件 当满足XXX=???的时候 <变量名，参数>
+	 * @param newObj 满足条件的数据改为当前newObj数据
+	 */
+	public static void updateDB(String tableName,Map<String,Object> queryMap,BasicDBObject newObj){
+		long startTime=System.currentTimeMillis();
+		BasicDBObject query=new BasicDBObject();
+		query.putAll(queryMap);
+		manager.getDBCollection(tableName).updateMulti(query, new BasicDBObject("$set",newObj));
+		System.out.println("条件更新“"+tableName+"”表数据    总耗时:"+(System.currentTimeMillis()-startTime));
+	}
+	
 }
