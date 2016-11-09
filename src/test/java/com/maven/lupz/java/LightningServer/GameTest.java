@@ -10,7 +10,7 @@ public class GameTest {
 	private static Scanner scan1;
 
 	public static void main(String[] args) {
-		LSGameManage lsGM=LSGameManage.getInstance();
+		LSServerManage lsGM=LSServerManage.getInstance();
 		lsGM.init(args);
 		
 		//批量创建角色 10个线程均分1万个角色

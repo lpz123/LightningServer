@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.maven.lupz.java.LightningServer.LSGameManage;
+import com.maven.lupz.java.LightningServer.LSServerManage;
 import com.maven.lupz.java.LightningServer.database.redis.proto.redis_proto;
 import com.maven.lupz.java.LightningServer.database.redis.proto.redis_proto.RedisGroup;
 
@@ -49,9 +49,9 @@ public class RedisPoolUtil {
             // 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
             config.setTestOnBorrow(true);
             
-            ADDRESS=LSGameManage.getInstance().getProp().getProperty("redisAddress").trim();
-            PORT=Integer.parseInt(LSGameManage.getInstance().getProp().getProperty("redisPort").trim());
-            AUTH=LSGameManage.getInstance().getProp().getProperty("auth").trim();
+            ADDRESS=LSServerManage.getInstance().getProp().getProperty("redisAddress").trim();
+            PORT=Integer.parseInt(LSServerManage.getInstance().getProp().getProperty("redisPort").trim());
+            AUTH=LSServerManage.getInstance().getProp().getProperty("auth").trim();
             
             jedisPool = new JedisPool(config, ADDRESS, PORT, 3000, AUTH);
         } catch (Exception e) {

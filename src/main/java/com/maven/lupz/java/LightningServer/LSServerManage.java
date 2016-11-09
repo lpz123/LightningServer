@@ -1,27 +1,23 @@
 package com.maven.lupz.java.LightningServer;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Properties;
 
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoConfig;
-import com.maven.lupz.java.LightningServer.database.mysql.logic.core.SqlSessionFactoryUtil;
-import com.maven.lupz.java.LightningServer.tool.LSLogger;
 
-public class LSGameManage {
+/**
+ * 服务器server级别启动加载
+ * @author lupz
+ *
+ */
+public class LSServerManage {
 	
-	private LSGameManage(){}
+	private LSServerManage(){}
 	
-	private static final LSGameManage instance=new LSGameManage();
+	private static final LSServerManage instance=new LSServerManage();
 
-	public static LSGameManage getInstance() {
+	public static LSServerManage getInstance() {
 		return instance;
 	}
 	

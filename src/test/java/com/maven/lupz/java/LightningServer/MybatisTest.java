@@ -12,7 +12,7 @@ import com.maven.lupz.java.LightningServer.database.mysql.logic.player.PlayerMap
 public class MybatisTest {
 
 	public static void main(String[] args) {
-		LSGameManage.getInstance().init(args);// 初始化服务器
+		LSServerManage.getInstance().init(args);// 初始化服务器
 
 		SqlSession sqlSession = null;
 

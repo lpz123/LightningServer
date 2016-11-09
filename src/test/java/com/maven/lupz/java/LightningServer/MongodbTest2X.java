@@ -13,7 +13,7 @@ import com.mongodb.DBObject;
 public class MongodbTest2X {
 
 	public static void main(String[] args) {
-		LSGameManage lsGM=LSGameManage.getInstance();
+		LSServerManage lsGM=LSServerManage.getInstance();
 		lsGM.init(args);
 		
 //		String[] address={lsGM.getProp().getProperty("mongoAddress").trim()};
