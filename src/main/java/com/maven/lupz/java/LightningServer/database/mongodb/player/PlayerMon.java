@@ -8,22 +8,34 @@ import com.mongodb.BasicDBObject;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;
 
 public class PlayerMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1478610546463L;
+    private static final long serialVersionUID = 1478687969632L;
     private BasicDBObject basicDBObject=null;
     @Override
     public BasicDBObject getBasicDBObject() {
         return basicDBObject;
     }
     private StringBuffer sb=new StringBuffer();
-    public String getRoleId () {
-        try{
-            return (String)basicDBObject.get("roleId");
-        }catch(Exception e){
-            return "null";
-        }
+    public PlayerMon (BasicDBObject basicDBObject) {
+        this.basicDBObject=basicDBObject;
     }
-    public void setRoleId (String roleId) {
-        basicDBObject.append("roleId",roleId);
+    public PlayerMon () {
+        this.basicDBObject=new BasicDBObject();
+    }
+    public String toString() {
+        return sb.toString();
+    }
+    private DBType dbType;
+    public enum DBType{
+        ADD,UPDATE,DELETE,NOTHING;
+    }
+    public void setDbType(DBType type){
+        this.dbType=type;
+    }
+    public DBType getDbType(){
+        return dbType;
+    }
+    public Object get_id() {
+        return (String)basicDBObject.get("_id");
     }
     public String getRoleName () {
         try{
@@ -54,28 +66,5 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
     }
     public void setProfession (int profession) {
         basicDBObject.append("profession",profession);
-    }
-    public PlayerMon (BasicDBObject basicDBObject) {
-        this.basicDBObject=basicDBObject;
-    }
-    public PlayerMon () {
-        this.basicDBObject=new BasicDBObject();
-    }
-    public String toString() {
-        sb.append("roleId=").append(getRoleId()).append("|");
-        sb.append("roleName=").append(getRoleName()).append("|");
-        sb.append("level=").append(getLevel()).append("|");
-        sb.append("profession=").append(getProfession()).append("|");
-        return sb.toString();
-    }
-    private DBType dbType;
-    public enum DBType{
-        ADD,UPDATE,DELETE,NOTHING;
-    }
-    public void setDbType(DBType type){
-        this.dbType=type;
-    }
-    public DBType getDbType(){
-        return dbType;
     }
 }

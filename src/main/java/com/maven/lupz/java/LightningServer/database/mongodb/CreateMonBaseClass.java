@@ -27,7 +27,7 @@ public class CreateMonBaseClass {
 		String className="";
 		List<String> sbList=null;//toString初始化
 		while ((data = br.readLine()) != null) {
-			if(data.contains("public class")){
+			if(data.contains("public class ")){
 				String[] strS1=data.split("[ ]");
 				if(strS1.length!=4){
 					System.err.println(data+"格式错误,缺少必要的空格");
@@ -37,10 +37,17 @@ public class CreateMonBaseClass {
 				String packageName=strS1[2];
 //				String classPublic=strS1[3];
 				sbList=new ArrayList<>();
-				file = new File("./src/main/java/"+packageName+".java");
-				file.createNewFile();
 				String[] packageNameS=strS1[2].split("[/]");
 				className=packageNameS[packageNameS.length-1];
+				packageName=packageName.replaceAll(className, "");
+				System.out.println("创建"+packageName+"文件夹");
+				System.out.println("创建"+className+".java文件");
+				File fileMK = new File("./src/main/java/"+packageName);
+				if (!fileMK.exists()) {
+					fileMK.mkdirs();
+		        }
+				file = new File("./src/main/java/"+packageName+className+".java");
+				file.createNewFile();
 				String newPackageName="package ";
 				for(int i=0;i<packageNameS.length-1;i++){
 					if(i==0){
@@ -66,8 +73,40 @@ public class CreateMonBaseClass {
 				writeFile(in, "        return basicDBObject;\n");//定义变量
 				writeFile(in, "    }\n");//定义变量
 				writeFile(in, "    private StringBuffer sb=new StringBuffer();\n");//定义变量
+				
+				writeFile(in, "    public "+className+" (BasicDBObject basicDBObject) {\n");//带参初始化
+				writeFile(in, "        this.basicDBObject=basicDBObject;\n");
+				writeFile(in, "    }\n");
+				
+				writeFile(in, "    public "+className+" () {\n");//非带参初始化
+				writeFile(in, "        this.basicDBObject=new BasicDBObject();\n");
+				writeFile(in, "    }\n");
+				
+				writeFile(in, "    public String toString() {\n");//toString
+				for(String sbStr:sbList){
+					String[] sbStrS=sbStr.split("[&]");
+					writeFile(in, "        sb.append(\""+sbStrS[0]+"=\").append("+sbStrS[1]+").append(\"|\");\n");
+				}
+				writeFile(in, "        return sb.toString();\n");
+				writeFile(in, "    }\n");
+				
+				writeFile(in, "    private DBType dbType;\n");//枚举
+				writeFile(in, "    public enum DBType{\n");
+				writeFile(in, "        ADD,UPDATE,DELETE,NOTHING;\n");
+				writeFile(in, "    }\n");
+				writeFile(in, "    public void setDbType(DBType type){\n");
+				writeFile(in, "        this.dbType=type;\n");
+				writeFile(in, "    }\n");
+				writeFile(in, "    public DBType getDbType(){\n");
+				writeFile(in, "        return dbType;\n");
+				writeFile(in, "    }\n");
+				
+//				writeFile(in, "    private String _id;\n");//唯一id
+				writeFile(in, "    public Object get_id() {\n");//唯一id
+				writeFile(in, "        return (String)basicDBObject.get(\"_id\");\n");
+				writeFile(in, "    }\n");
 			}else{
-				if(!data.equals("}")){
+				if(!data.equals("}") && data.contains(";")){
 					String[] strS1=data.split("[;]");//剥离注释
 					String[] strS2=strS1[0].split("[ ]");//剥离方法名
 					String type=strS2[strS2.length-2];
@@ -80,7 +119,7 @@ public class CreateMonBaseClass {
 					writeFile(in, "        }catch(Exception e){\n");
 					if(type.equals("int") || type.equals("long") || type.equals("byte")){
 						writeFile(in, "            return 0;\n");
-					}else if(type.equals("String")){
+					}else if(type.equals("String") || type.equals("Object")){
 						writeFile(in, "            return \"null\";\n");
 					}else{
 						System.err.println("出现不存在的类型"+type);
@@ -96,34 +135,7 @@ public class CreateMonBaseClass {
 					writeFile(in, "    }\n");//空格
 
 					sbList.add(name+"&"+methodNameGet+"()");
-				}else{
-					writeFile(in, "    public "+className+" (BasicDBObject basicDBObject) {\n");//带参初始化
-					writeFile(in, "        this.basicDBObject=basicDBObject;\n");
-					writeFile(in, "    }\n");
-					
-					writeFile(in, "    public "+className+" () {\n");//非带参初始化
-					writeFile(in, "        this.basicDBObject=new BasicDBObject();\n");
-					writeFile(in, "    }\n");
-					
-					writeFile(in, "    public String toString() {\n");//toString
-					for(String sbStr:sbList){
-						String[] sbStrS=sbStr.split("[&]");
-						writeFile(in, "        sb.append(\""+sbStrS[0]+"=\").append("+sbStrS[1]+").append(\"|\");\n");
-					}
-					writeFile(in, "        return sb.toString();\n");
-					writeFile(in, "    }\n");
-					
-					writeFile(in, "    private DBType dbType;\n");
-					writeFile(in, "    public enum DBType{\n");
-					writeFile(in, "        ADD,UPDATE,DELETE,NOTHING;\n");
-					writeFile(in, "    }\n");
-					writeFile(in, "    public void setDbType(DBType type){\n");
-					writeFile(in, "        this.dbType=type;\n");
-					writeFile(in, "    }\n");
-					writeFile(in, "    public DBType getDbType(){\n");
-					writeFile(in, "        return dbType;\n");
-					writeFile(in, "    }\n");
-
+				}else if(data.equals("}")){
 					writeFile(in, "}");
 				}
 			}

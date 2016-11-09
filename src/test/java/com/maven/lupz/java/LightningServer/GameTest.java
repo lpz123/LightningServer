@@ -14,36 +14,28 @@ public class GameTest {
 		lsGM.init(args);
 		
 		//批量创建角色 10个线程均分1万个角色
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-		new Thread(new TTTT()).start();
-
-		
-//		boolean run=true;
-//		while(run){
-//			System.out.println("您要做什么？");
-//			System.out.println("1:创建角色，2：登陆角色，3：退出");
-//			scan1 = new Scanner(System.in);
-//			int scanInt1=scan1.nextInt();
-//			switch(scanInt1){
-//			case 1:
-//				creatPlayer();
-//				break;
-//			case 2:
-//				creatPlayer();
-//				break;
-//			case 3:
-//				exit();
-//				break;
-//			}
+//		for(int i=0;i<100;i++){
+//			new Thread(new TTTT()).start();
 //		}
+		
+		boolean run=true;
+		while(run){
+			System.out.println("您要做什么？");
+			System.out.println("1:创建角色，2：登陆角色，3：退出");
+			scan1 = new Scanner(System.in);
+			int scanInt1=scan1.nextInt();
+			switch(scanInt1){
+			case 1:
+				creatPlayer();
+				break;
+			case 2:
+				creatPlayer();
+				break;
+			case 3:
+				exit();
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -65,14 +57,14 @@ public class GameTest {
 		
 		MongoDao.insertDB("t_game_role", pm);
 		
-		System.out.println("创建成功");
+		System.out.println("创建成功 角色id为:"+pm.get_id());
 	}
 	
 	/**
 	 * 登陆游戏
 	 */
 	public static void loginPlayer(){
-		
+		System.out.println("请输入角色名：");
 	}
 	
 	/**
