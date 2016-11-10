@@ -2,6 +2,7 @@ package com.maven.lupz.java.LightningServer.database.mongodb.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,21 @@ public class MongoDao{
 	 */
 	public static void updateDB(String tableName,Map<String,Object> queryMap,BasicDBObject newObj){
 		long startTime=System.currentTimeMillis();
+		BasicDBObject query=new BasicDBObject();
+		query.putAll(queryMap);
+		manager.getDBCollection(tableName).updateMulti(query, new BasicDBObject("$set",newObj));
+		System.out.println("条件更新“"+tableName+"”表数据    总耗时:"+(System.currentTimeMillis()-startTime));
+	}
+	
+	/**
+	 * 无条件更新   依据_id更新
+	 * @param tableName
+	 * @param newObj
+	 */
+	public static void updateDB(String tableName,BasicDBObject newObj){
+		long startTime=System.currentTimeMillis();
+		Map<String,Object> queryMap=new HashMap<>();
+		queryMap.put("_id", newObj.get("_id"));
 		BasicDBObject query=new BasicDBObject();
 		query.putAll(queryMap);
 		manager.getDBCollection(tableName).updateMulti(query, new BasicDBObject("$set",newObj));

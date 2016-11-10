@@ -8,7 +8,7 @@ import com.mongodb.BasicDBObject;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;
 
 public class PlayerMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1478759381420L;
+    private static final long serialVersionUID = 1478768941524L;
     private BasicDBObject basicDBObject=null;
     @Override
     public BasicDBObject getBasicDBObject() {

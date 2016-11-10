@@ -1,13 +1,11 @@
 package com.maven.lupz.java.LightningServer;
 
-public class LSCollectionManage {
-	
-	private static LSCollectionManage instance=new LSCollectionManage();
+import java.util.concurrent.ConcurrentHashMap;
 
-	public static LSCollectionManage getInstance() {
-		return instance;
-	}
+import com.maven.lupz.java.LightningServer.database.mongodb.player.PlayerMon;
+
+public interface LSCollectionManage {
 	
-	private LSCollectionManage(){}
+	public ConcurrentHashMap<Object, PlayerMon> playerMap=new ConcurrentHashMap<>();
 	
 }

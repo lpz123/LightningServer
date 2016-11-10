@@ -105,6 +105,10 @@ public class CreateMonBaseClass {
 				writeFile(in, "    }\n");
 				
 //				writeFile(in, "    private String _id;\n");//唯一id
+//				writeFile(in, "    public String get_id() {\n");//唯一id
+//				writeFile(in, "        return basicDBObject.get(\"_id\").toString();\n");
+//				writeFile(in, "    }\n");
+				
 				writeFile(in, "    public Object get_id() {\n");//唯一id
 				writeFile(in, "        return basicDBObject.get(\"_id\");\n");
 				writeFile(in, "    }\n");
@@ -142,7 +146,7 @@ public class CreateMonBaseClass {
 					writeFile(in, "}");
 				}
 			}
-			Thread.sleep(200);
+			Thread.sleep(20);
 		}
 		br.close();
 		in.close();
