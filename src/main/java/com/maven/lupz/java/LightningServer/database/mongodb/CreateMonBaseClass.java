@@ -66,13 +66,17 @@ public class CreateMonBaseClass {
 				writeFile(in,"import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;\n");
 				writeFile(in, "\n");//空格 
 				writeFile(in, publicStr+" "+classStr+" "+className+" extends BasicDBObject implements ISaveInter {\n");
+				
 				writeFile(in, "    private static final long serialVersionUID = "+System.currentTimeMillis()+"L;\n");//空格
+				
 				writeFile(in, "    private BasicDBObject basicDBObject=null;\n");//定义变量
-				writeFile(in, "    @Override\n");//定义变量
+				
+				writeFile(in, "    @Override\n");
 				writeFile(in, "    public BasicDBObject getBasicDBObject() {\n");//定义变量
-				writeFile(in, "        return basicDBObject;\n");//定义变量
-				writeFile(in, "    }\n");//定义变量
-				writeFile(in, "    private StringBuffer sb=new StringBuffer();\n");//定义变量
+				writeFile(in, "        return basicDBObject;\n");
+				writeFile(in, "    }\n");
+				
+//				writeFile(in, "    private StringBuffer sb=new StringBuffer();\n");//定义变量
 				
 				writeFile(in, "    public "+className+" (BasicDBObject basicDBObject) {\n");//带参初始化
 				writeFile(in, "        this.basicDBObject=basicDBObject;\n");
@@ -83,11 +87,10 @@ public class CreateMonBaseClass {
 				writeFile(in, "    }\n");
 				
 				writeFile(in, "    public String toString() {\n");//toString
-				for(String sbStr:sbList){
-					String[] sbStrS=sbStr.split("[&]");
-					writeFile(in, "        sb.append(\""+sbStrS[0]+"=\").append("+sbStrS[1]+").append(\"|\");\n");
-				}
-				writeFile(in, "        return sb.toString();\n");
+//				for(String sbStr:sbList){
+//					String[] sbStrS=sbStr.split("[&]");
+//				}
+				writeFile(in, "        return getBasicDBObject().toMap().toString();\n");
 				writeFile(in, "    }\n");
 				
 				writeFile(in, "    private DBType dbType;\n");//枚举
@@ -103,7 +106,7 @@ public class CreateMonBaseClass {
 				
 //				writeFile(in, "    private String _id;\n");//唯一id
 				writeFile(in, "    public Object get_id() {\n");//唯一id
-				writeFile(in, "        return (String)basicDBObject.get(\"_id\");\n");
+				writeFile(in, "        return basicDBObject.get(\"_id\");\n");
 				writeFile(in, "    }\n");
 			}else{
 				if(!data.equals("}") && data.contains(";")){

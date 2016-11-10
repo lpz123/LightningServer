@@ -43,7 +43,7 @@ public class MongodbTest2X {
 //		System.out.println("----------------------------------------------------------------------\n");
 
 		/****删除表*******/
-		MongoDao.deleteDB(tableName);
+//		MongoDao.deleteDB(tableName);
 		System.out.println("----------------------------------------------------------------------\n");
 		
 		/****条件删除数据*******/

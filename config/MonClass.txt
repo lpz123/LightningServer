@@ -1,4 +1,5 @@
 public class com/maven/lupz/java/LightningServer/database/mongodb/player/PlayerMon {
+	private String userName;//帐号名
 	private String roleName;//角色名
 	private int level;//角色等级
 	private int profession;//职业

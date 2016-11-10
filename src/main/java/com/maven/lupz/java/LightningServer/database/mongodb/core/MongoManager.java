@@ -59,8 +59,6 @@ public class MongoManager {
 	/**
 	 * @param tableName
 	 * @return
-	 * @Date:2014-3-19
-	 * @Author:lulei
 	 * @Description: 获取表tableName的链接DBCollection
 	 */
 	public DBCollection getDBCollection(String tableName) {
@@ -68,8 +66,6 @@ public class MongoManager {
 	}
 
 	/**
-	 * @Date:2014-3-19
-	 * @Author:lulei
 	 * @Description: mongo连接池初始化
 	 */
 	private void init() {

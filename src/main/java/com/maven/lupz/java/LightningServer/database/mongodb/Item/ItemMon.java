@@ -8,13 +8,12 @@ import com.mongodb.BasicDBObject;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;
 
 public class ItemMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1478687970840L;
+    private static final long serialVersionUID = 1478759382827L;
     private BasicDBObject basicDBObject=null;
     @Override
     public BasicDBObject getBasicDBObject() {
         return basicDBObject;
     }
-    private StringBuffer sb=new StringBuffer();
     public ItemMon (BasicDBObject basicDBObject) {
         this.basicDBObject=basicDBObject;
     }
@@ -22,7 +21,7 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
         this.basicDBObject=new BasicDBObject();
     }
     public String toString() {
-        return sb.toString();
+        return getBasicDBObject().toMap().toString();
     }
     private DBType dbType;
     public enum DBType{
@@ -35,7 +34,7 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
         return dbType;
     }
     public Object get_id() {
-        return (String)basicDBObject.get("_id");
+        return basicDBObject.get("_id");
     }
     public Object getPlayer_Id () {
         try{
