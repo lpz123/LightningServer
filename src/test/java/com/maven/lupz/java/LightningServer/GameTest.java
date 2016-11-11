@@ -128,27 +128,7 @@ public class GameTest {
 				PlayerLogic.logicServer(player);
 			}
 		}
-		
 		gameStart();
-	}
-	
-	public static void gameStart(){
-		boolean ran=true;
-		while(ran){
-			System.out.println("欢迎来到LSServer世界");
-			System.out.println("1：查询当前在线人数，2：查询自己属性，3：查询自己背包，4：查询自己装备，5：登出");
-			scan1 = new Scanner(System.in);
-			int choose=scan1.nextInt();
-			switch(choose){
-			case 1:break;
-			case 2:break;
-			case 3:break;
-			case 4:break;
-			case 5:
-				ran=false;
-				break;
-			}
-		}
 	}
 	
 	/**
@@ -161,6 +141,38 @@ public class GameTest {
 			MongoDao.updateDB("t_game_role", mon);
 		}
 		System.exit(1);
+	}
+	
+	public static void gameStart(){
+		boolean ran=true;
+		while(ran){
+			System.out.println("欢迎来到LSServer世界");
+			System.out.println("0：寻怪，1：查询当前在线人数，2：查询自己属性，3：查询自己背包，4：查询自己装备，5：登出");
+			scan1 = new Scanner(System.in);
+			int choose=scan1.nextInt();
+			switch(choose){
+			case 0:
+				searchMonster();
+				break;
+			case 1:break;
+			case 2:break;
+			case 3:break;
+			case 4:break;
+			case 5:
+				ran=false;
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * 寻怪
+	 */
+	public static void searchMonster(){
+		boolean ran=true;
+		while(ran){
+			
+		}
 	}
 
 }
