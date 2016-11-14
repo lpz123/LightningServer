@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoConfig;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;
-import com.maven.lupz.java.LightningServer.database.mongodb.player.PlayerMon;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -25,13 +24,13 @@ public class MongodbTest2X {
 
 		String tableName="t_game_role";
 		
-		/****查询该表所有数据*******/
-		List<BasicDBObject> selectAll=MongoDao.selectDB(tableName);
-		for(BasicDBObject ob:selectAll){
-			PlayerMon pm1= new PlayerMon(ob);
-			System.out.println(pm1.toString());
-		}
-		System.out.println("----------------------------------------------------------------------\n");
+//		/****查询该表所有数据*******/
+//		List<BasicDBObject> selectAll=MongoDao.selectDB(tableName);
+//		for(BasicDBObject ob:selectAll){
+//			PlayerMon pm1= new PlayerMon(ob);
+//			System.out.println(pm1.toString());
+//		}
+//		System.out.println("----------------------------------------------------------------------\n");
 		
 		/****插入数据*******/
 //		PlayerMon pm=new PlayerMon();
@@ -73,11 +72,11 @@ public class MongodbTest2X {
 //		System.out.println("----------------------------------------------------------------------\n");
 
 		/****查询该表所有数据*******/
-		selectAll=MongoDao.selectDB(tableName);
-		for(BasicDBObject ob:selectAll){
-			PlayerMon pm1= new PlayerMon(ob);
-			System.out.println(pm1.toString());
-		}
+//		selectAll=MongoDao.selectDB(tableName);
+//		for(BasicDBObject ob:selectAll){
+//			PlayerMon pm1= new PlayerMon(ob);
+//			System.out.println(pm1.toString());
+//		}
 		System.out.println("----------------------------------------------------------------------\n");
 		
 	}

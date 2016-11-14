@@ -1,18 +1,22 @@
-package com.maven.lupz.java.LightningServer.database.mongodb;
+package com.maven.lupz.java.LightningServer.CREATE_CLASS.mongodb;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
+import com.maven.lupz.java.LightningServer.database.mongodb.mon.player.PlayerMon;
 import com.mongodb.BasicDBObject;
 
+/**
+ * 生成Mongodb持久化类<br>
+ * config/MonClass<br>
+ * @author lupz
+ */
 public class CreateMonBaseClass {
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -35,7 +39,6 @@ public class CreateMonBaseClass {
 				String publicStr=strS1[0];
 				String classStr=strS1[1];
 				String packageName=strS1[2];
-//				String classPublic=strS1[3];
 				sbList=new ArrayList<>();
 				String[] packageNameS=strS1[2].split("[/]");
 				className=packageNameS[packageNameS.length-1];
@@ -76,20 +79,19 @@ public class CreateMonBaseClass {
 				writeFile(in, "        return basicDBObject;\n");
 				writeFile(in, "    }\n");
 				
-//				writeFile(in, "    private StringBuffer sb=new StringBuffer();\n");//定义变量
-				
 				writeFile(in, "    public "+className+" (BasicDBObject basicDBObject) {\n");//带参初始化
 				writeFile(in, "        this.basicDBObject=basicDBObject;\n");
 				writeFile(in, "    }\n");
 				
-				writeFile(in, "    public "+className+" () {\n");//非带参初始化
-				writeFile(in, "        this.basicDBObject=new BasicDBObject();\n");
-				writeFile(in, "    }\n");
+				writeFile(in, "    private "+className+" () {}\n");//非带参初始化
 				
+				writeFile(in, "    public static "+className+" create(){\n");
+				writeFile(in, "        "+className+" mon=new "+className+"();\n");
+				writeFile(in, "        mon.basicDBObject=new BasicDBObject();\n");
+				writeFile(in, "        return mon;\n");
+				writeFile(in, "    }\n");
+			    	
 				writeFile(in, "    public String toString() {\n");//toString
-//				for(String sbStr:sbList){
-//					String[] sbStrS=sbStr.split("[&]");
-//				}
 				writeFile(in, "        return getBasicDBObject().toMap().toString();\n");
 				writeFile(in, "    }\n");
 				
@@ -104,11 +106,6 @@ public class CreateMonBaseClass {
 				writeFile(in, "        return dbType;\n");
 				writeFile(in, "    }\n");
 				
-//				writeFile(in, "    private String _id;\n");//唯一id
-//				writeFile(in, "    public String get_id() {\n");//唯一id
-//				writeFile(in, "        return basicDBObject.get(\"_id\").toString();\n");
-//				writeFile(in, "    }\n");
-				
 				writeFile(in, "    public Object get_id() {\n");//唯一id
 				writeFile(in, "        return basicDBObject.get(\"_id\");\n");
 				writeFile(in, "    }\n");
@@ -116,20 +113,36 @@ public class CreateMonBaseClass {
 				if(!data.equals("}") && data.contains(";")){
 					String[] strS1=data.split("[;]");//剥离注释
 					String[] strS2=strS1[0].split("[ ]");//剥离方法名
-					String type=strS2[strS2.length-2];
-					String name=strS2[strS2.length-1];
-					
+					String type=strS2[1];
+					String name=strS2[2];
+
 					String methodNameGet="get"+captureName(name);//定义get
 					writeFile(in, "    public "+type+" "+methodNameGet+" () {\n");//空格
 					writeFile(in, "        try{\n");//空格
-					writeFile(in, "            return ("+type+")basicDBObject.get(\""+name+"\");\n");//空格
+					writeFile(in, "            Object obj=basicDBObject.get(\""+name+"\");\n");//空格
+					writeFile(in, "            if(obj!=null){\n");//空格
+					writeFile(in, "                return ("+type+")basicDBObject.get(\""+name+"\");\n");//空格
+					writeFile(in, "            }else{\n");//空格
+					if(type.equals("int") || type.equals("long") || type.equals("byte")){
+						writeFile(in, "                return 0;\n");
+					}else if(type.equals("String") || type.equals("Object")){
+						writeFile(in, "                return \"null\";\n");
+					}else if(type.equals("float")){
+						writeFile(in, "                return 0f;\n");
+					}else{
+						System.err.println("出现不存在的类型："+type);
+						writeFile(in, "                return \"null\";\n");
+					}
+					writeFile(in, "            }\n");//空格
 					writeFile(in, "        }catch(Exception e){\n");
 					if(type.equals("int") || type.equals("long") || type.equals("byte")){
 						writeFile(in, "            return 0;\n");
 					}else if(type.equals("String") || type.equals("Object")){
 						writeFile(in, "            return \"null\";\n");
+					}else if(type.equals("float")){
+						writeFile(in, "            return 0f;\n");
 					}else{
-						System.err.println("出现不存在的类型"+type);
+						System.err.println("出现不存在的类型："+type);
 						writeFile(in, "            return \"null\";\n");
 					}
 					

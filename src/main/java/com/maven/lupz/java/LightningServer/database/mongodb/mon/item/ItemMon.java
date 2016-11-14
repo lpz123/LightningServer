@@ -2,13 +2,13 @@
 /**
 *@author lupz
 */
-package com.maven.lupz.java.LightningServer.database.mongodb.Item;
+package com.maven.lupz.java.LightningServer.database.mongodb.mon.item;
 
 import com.mongodb.BasicDBObject;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;
 
 public class ItemMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1478768941668L;
+    private static final long serialVersionUID = 1479131721344L;
     private BasicDBObject basicDBObject=null;
     @Override
     public BasicDBObject getBasicDBObject() {
@@ -17,8 +17,11 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
     public ItemMon (BasicDBObject basicDBObject) {
         this.basicDBObject=basicDBObject;
     }
-    public ItemMon () {
-        this.basicDBObject=new BasicDBObject();
+    private ItemMon () {}
+    public static ItemMon create(){
+        ItemMon mon=new ItemMon();
+        mon.basicDBObject=new BasicDBObject();
+        return mon;
     }
     public String toString() {
         return getBasicDBObject().toMap().toString();
@@ -38,7 +41,12 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
     }
     public Object getPlayer_Id () {
         try{
-            return (Object)basicDBObject.get("player_Id");
+            Object obj=basicDBObject.get("player_Id");
+            if(obj!=null){
+                return (Object)basicDBObject.get("player_Id");
+            }else{
+                return "null";
+            }
         }catch(Exception e){
             return "null";
         }
@@ -48,7 +56,12 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
     }
     public long getGoodsId () {
         try{
-            return (long)basicDBObject.get("goodsId");
+            Object obj=basicDBObject.get("goodsId");
+            if(obj!=null){
+                return (long)basicDBObject.get("goodsId");
+            }else{
+                return 0;
+            }
         }catch(Exception e){
             return 0;
         }
@@ -56,19 +69,44 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
     public void setGoodsId (long goodsId) {
         basicDBObject.append("goodsId",goodsId);
     }
-    public int getType () {
+    public int getUseType () {
         try{
-            return (int)basicDBObject.get("type");
+            Object obj=basicDBObject.get("useType");
+            if(obj!=null){
+                return (int)basicDBObject.get("useType");
+            }else{
+                return 0;
+            }
         }catch(Exception e){
             return 0;
         }
     }
-    public void setType (int type) {
-        basicDBObject.append("type",type);
+    public void setUseType (int useType) {
+        basicDBObject.append("useType",useType);
+    }
+    public String getName () {
+        try{
+            Object obj=basicDBObject.get("name");
+            if(obj!=null){
+                return (String)basicDBObject.get("name");
+            }else{
+                return "null";
+            }
+        }catch(Exception e){
+            return "null";
+        }
+    }
+    public void setName (String name) {
+        basicDBObject.append("name",name);
     }
     public long getHp () {
         try{
-            return (long)basicDBObject.get("hp");
+            Object obj=basicDBObject.get("hp");
+            if(obj!=null){
+                return (long)basicDBObject.get("hp");
+            }else{
+                return 0;
+            }
         }catch(Exception e){
             return 0;
         }
@@ -78,7 +116,12 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
     }
     public long getAtk () {
         try{
-            return (long)basicDBObject.get("atk");
+            Object obj=basicDBObject.get("atk");
+            if(obj!=null){
+                return (long)basicDBObject.get("atk");
+            }else{
+                return 0;
+            }
         }catch(Exception e){
             return 0;
         }
@@ -88,22 +131,17 @@ public class ItemMon extends BasicDBObject implements ISaveInter {
     }
     public long getDef () {
         try{
-            return (long)basicDBObject.get("def");
+            Object obj=basicDBObject.get("def");
+            if(obj!=null){
+                return (long)basicDBObject.get("def");
+            }else{
+                return 0;
+            }
         }catch(Exception e){
             return 0;
         }
     }
     public void setDef (long def) {
         basicDBObject.append("def",def);
-    }
-    public long getDex () {
-        try{
-            return (long)basicDBObject.get("dex");
-        }catch(Exception e){
-            return 0;
-        }
-    }
-    public void setDex (long dex) {
-        basicDBObject.append("dex",dex);
     }
 }

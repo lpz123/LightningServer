@@ -1,16 +1,37 @@
-public class com/maven/lupz/java/LightningServer/database/mongodb/player/PlayerMon {
+public class com/maven/lupz/java/LightningServer/database/mongodb/mon/player/PlayerMon {
 	private String userName;//帐号名
 	private String roleName;//角色名
-	private int level;//角色等级
 	private int profession;//职业
-}
-        
-public class com/maven/lupz/java/LightningServer/database/mongodb/Item/ItemMon {
-	private Object player_Id;//角色唯一id
-	private long goodsId;//物品模板id
-	private int type;//物品类型     1：武器，2：符文，3：药水
-	private long hp;//物品增加血量
+	private long hp;//血量
 	private long atk;//攻击力
 	private long def;//防御力
-	private long dex;//敏捷
+}
+        
+public class com/maven/lupz/java/LightningServer/database/mongodb/mon/item/ItemMon {
+	private Object player_Id;//角色唯一id
+	private long goodsId;//物品模板id
+	private int useType;//1：直接使用    2：不可使用
+	private String name;//名称
+	private long hp;//物品增加血量
+	private long atk;//物品增加攻击力
+	private long def;//物品增加防御力
+}
+
+public class com/maven/lupz/java/LightningServer/database/mongodb/mon/equip/EquipMon {
+	private Object player_Id;//角色唯一id
+	private long goodsId;//物品模板id
+	private int type;//物品类型     1：武器，2：防具
+	private int equipType;//装备位置  0：未装备
+	private long hp;//物品增加血量
+	private long atk;//物品增加攻击力
+	private long def;//物品增加防御力
+}
+
+public class com/maven/lupz/java/LightningServer/database/mongodb/mon/fuwen/FuWenMon {
+	private Object player_Id;//角色唯一id
+	private long goodsId;//物品模板id
+	private Object equipId;//装备上的武器唯一id
+	private long hp;//物品增加血量
+	private long atk;//物品增加攻击力
+	private long def;//物品增加防御力	
 }
