@@ -6,9 +6,11 @@ package com.maven.lupz.java.LightningServer.database.mongodb.mon.fuwen;
 
 import com.mongodb.BasicDBObject;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;
+import com.maven.lupz.java.LightningServer.database.mongodb.core.EDBType;
+import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;
 
 public class FuWenMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1479131721758L;
+    private static final long serialVersionUID = 1479198519808L;
     private BasicDBObject basicDBObject=null;
     @Override
     public BasicDBObject getBasicDBObject() {
@@ -26,18 +28,25 @@ public class FuWenMon extends BasicDBObject implements ISaveInter {
     public String toString() {
         return getBasicDBObject().toMap().toString();
     }
-    private DBType dbType;
-    public enum DBType{
-        ADD,UPDATE,DELETE,NOTHING;
+    public volatile EDBType dbType=EDBType.NOTHING;
+    public synchronized void setDBType(EDBType dbType){
+        this.dbType=dbType;
     }
-    public void setDbType(DBType type){
-        this.dbType=type;
-    }
-    public DBType getDbType(){
+    public EDBType getDBType(){
         return dbType;
     }
     public Object get_id() {
         return basicDBObject.get("_id");
+    }
+    public void save(){
+        MongoDao.insertDB("t_game_FuWenMon", this);
+    }
+    public void delete(){
+        MongoDao.deleteDB("t_game_FuWenMon", this);
+    }
+    public void update(){
+        MongoDao.updateDB("t_game_FuWenMon", this);
+        this.setDBType(EDBType.NOTHING);
     }
     public Object getPlayer_Id () {
         try{
@@ -128,5 +137,20 @@ public class FuWenMon extends BasicDBObject implements ISaveInter {
     }
     public void setDef (long def) {
         basicDBObject.append("def",def);
+    }
+    public String getName () {
+        try{
+            Object obj=basicDBObject.get("name");
+            if(obj!=null){
+                return (String)basicDBObject.get("name");
+            }else{
+                return "null";
+            }
+        }catch(Exception e){
+            return "null";
+        }
+    }
+    public void setName (String name) {
+        basicDBObject.append("name",name);
     }
 }

@@ -6,9 +6,11 @@ package com.maven.lupz.java.LightningServer.database.mongodb.mon.player;
 
 import com.mongodb.BasicDBObject;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;
+import com.maven.lupz.java.LightningServer.database.mongodb.core.EDBType;
+import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;
 
 public class PlayerMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1479131721160L;
+    private static final long serialVersionUID = 1479198519187L;
     private BasicDBObject basicDBObject=null;
     @Override
     public BasicDBObject getBasicDBObject() {
@@ -26,18 +28,25 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
     public String toString() {
         return getBasicDBObject().toMap().toString();
     }
-    private DBType dbType;
-    public enum DBType{
-        ADD,UPDATE,DELETE,NOTHING;
+    public volatile EDBType dbType=EDBType.NOTHING;
+    public synchronized void setDBType(EDBType dbType){
+        this.dbType=dbType;
     }
-    public void setDbType(DBType type){
-        this.dbType=type;
-    }
-    public DBType getDbType(){
+    public EDBType getDBType(){
         return dbType;
     }
     public Object get_id() {
         return basicDBObject.get("_id");
+    }
+    public void save(){
+        MongoDao.insertDB("t_game_PlayerMon", this);
+    }
+    public void delete(){
+        MongoDao.deleteDB("t_game_PlayerMon", this);
+    }
+    public void update(){
+        MongoDao.updateDB("t_game_PlayerMon", this);
+        this.setDBType(EDBType.NOTHING);
     }
     public String getUserName () {
         try{

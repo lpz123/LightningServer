@@ -6,12 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 
 /**
  * 
@@ -37,31 +35,29 @@ public class MongoDao{
 		collection.insert(Objs);
 		System.out.println("插入“"+tableName+"”表后共有"+collection.count()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
 	}
-
-	/**
-	 * 删除表
-	 * @deprecated 危险操作 不可逆
-	 * @param tableNameList 表名集合
-	 */
-	public static void deleteTable(String ...tableNameList){
-		for(String str:tableNameList){
-			manager.getDBCollection(str).drop();
-			System.out.println("删除“"+str+"”表成功");
-		}
-	}
 	
 	/**
 	 * 条件删除
 	 * @param tableName 表名
-	 * @param map 查询条件  Map<String,Object>
+	 * @param map 条件  Map<String,Object>
 	 */
-	public static void deleteData(String tableName,Map<String,Object> map){
+	public static void deleteDB(String tableName,Map<String,Object> map){
 		long startTime=System.currentTimeMillis();
 		DBCollection collection=manager.getDBCollection(tableName);
 		System.out.println("删除“"+tableName+"”表前的count="+collection.count());
 		BasicDBObject cond=new BasicDBObject();
 		cond.putAll(map);
 		manager.getDBCollection(tableName).remove(cond);
+		System.out.println("删除“"+tableName+"”表后的count="+collection.count()+"    总耗时:"+(System.currentTimeMillis()-startTime));
+	}
+	
+	public static void deleteDB(String tableName,BasicDBObject newObj){
+		long startTime=System.currentTimeMillis();
+		DBCollection collection=manager.getDBCollection(tableName);
+		System.out.println("删除“"+tableName+"”表前的count="+collection.count());
+//		BasicDBObject cond=new BasicDBObject();
+//		cond.putAll(map);
+		manager.getDBCollection(tableName).remove(newObj);
 		System.out.println("删除“"+tableName+"”表后的count="+collection.count()+"    总耗时:"+(System.currentTimeMillis()-startTime));
 	}
 	
@@ -117,7 +113,7 @@ public class MongoDao{
 	}
 	
 	/**
-	 * 无条件更新   依据_id更新
+	 * 依据_id更新
 	 * @param tableName
 	 * @param newObj
 	 */

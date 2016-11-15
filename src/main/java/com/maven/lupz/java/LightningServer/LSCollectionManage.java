@@ -10,8 +10,6 @@ public interface LSCollectionManage {
 	
 	public ConcurrentHashMap<Object, Player> playerMap=new ConcurrentHashMap<>();
 	
-	public ConcurrentHashMap<Object, ConcurrentHashMap<Object,ItemMon>> playerBagMap=new ConcurrentHashMap<>();
-	
 	/*******以下为临时代码*************************************/
 	class Monster{
 		public Monster(String name,long hp,long atk,long def){

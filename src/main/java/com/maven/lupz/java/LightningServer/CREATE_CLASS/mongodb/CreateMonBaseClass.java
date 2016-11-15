@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.maven.lupz.java.LightningServer.database.mongodb.core.EDBType;
+import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;
 import com.maven.lupz.java.LightningServer.database.mongodb.mon.player.PlayerMon;
 import com.mongodb.BasicDBObject;
 
@@ -67,6 +69,8 @@ public class CreateMonBaseClass {
 				writeFile(in, "\n");//空格 
 				writeFile(in,"import com.mongodb.BasicDBObject;\n");
 				writeFile(in,"import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;\n");
+				writeFile(in,"import com.maven.lupz.java.LightningServer.database.mongodb.core.EDBType;\n");
+				writeFile(in,"import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;\n");
 				writeFile(in, "\n");//空格 
 				writeFile(in, publicStr+" "+classStr+" "+className+" extends BasicDBObject implements ISaveInter {\n");
 				
@@ -95,19 +99,29 @@ public class CreateMonBaseClass {
 				writeFile(in, "        return getBasicDBObject().toMap().toString();\n");
 				writeFile(in, "    }\n");
 				
-				writeFile(in, "    private DBType dbType;\n");//枚举
-				writeFile(in, "    public enum DBType{\n");
-				writeFile(in, "        ADD,UPDATE,DELETE,NOTHING;\n");
+				writeFile(in, "    public volatile EDBType dbType=EDBType.NOTHING;\n");//枚举
+				writeFile(in, "    public synchronized void setDBType(EDBType dbType){\n");
+				writeFile(in, "        this.dbType=dbType;\n");
 				writeFile(in, "    }\n");
-				writeFile(in, "    public void setDbType(DBType type){\n");
-				writeFile(in, "        this.dbType=type;\n");
-				writeFile(in, "    }\n");
-				writeFile(in, "    public DBType getDbType(){\n");
+				writeFile(in, "    public EDBType getDBType(){\n");
 				writeFile(in, "        return dbType;\n");
 				writeFile(in, "    }\n");
 				
 				writeFile(in, "    public Object get_id() {\n");//唯一id
 				writeFile(in, "        return basicDBObject.get(\"_id\");\n");
+				writeFile(in, "    }\n");
+				
+				writeFile(in, "    public void save(){\n");//增
+				writeFile(in, "        MongoDao.insertDB(\"t_game_"+className+"\", this);\n");
+				writeFile(in, "    }\n");
+			    
+				writeFile(in, "    public void delete(){\n");//删
+				writeFile(in, "        MongoDao.deleteDB(\"t_game_"+className+"\", this);\n");
+				writeFile(in, "    }\n");
+			    
+				writeFile(in, "    public void update(){\n");//更新
+				writeFile(in, "        MongoDao.updateDB(\"t_game_"+className+"\", this);\n");
+				writeFile(in, "        this.setDBType(EDBType.NOTHING);\n");
 				writeFile(in, "    }\n");
 			}else{
 				if(!data.equals("}") && data.contains(";")){

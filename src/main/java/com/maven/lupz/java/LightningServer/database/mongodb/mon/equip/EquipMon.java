@@ -6,9 +6,11 @@ package com.maven.lupz.java.LightningServer.database.mongodb.mon.equip;
 
 import com.mongodb.BasicDBObject;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.ISaveInter;
+import com.maven.lupz.java.LightningServer.database.mongodb.core.EDBType;
+import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;
 
 public class EquipMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1479131721553L;
+    private static final long serialVersionUID = 1479198519581L;
     private BasicDBObject basicDBObject=null;
     @Override
     public BasicDBObject getBasicDBObject() {
@@ -26,18 +28,25 @@ public class EquipMon extends BasicDBObject implements ISaveInter {
     public String toString() {
         return getBasicDBObject().toMap().toString();
     }
-    private DBType dbType;
-    public enum DBType{
-        ADD,UPDATE,DELETE,NOTHING;
+    public volatile EDBType dbType=EDBType.NOTHING;
+    public synchronized void setDBType(EDBType dbType){
+        this.dbType=dbType;
     }
-    public void setDbType(DBType type){
-        this.dbType=type;
-    }
-    public DBType getDbType(){
+    public EDBType getDBType(){
         return dbType;
     }
     public Object get_id() {
         return basicDBObject.get("_id");
+    }
+    public void save(){
+        MongoDao.insertDB("t_game_EquipMon", this);
+    }
+    public void delete(){
+        MongoDao.deleteDB("t_game_EquipMon", this);
+    }
+    public void update(){
+        MongoDao.updateDB("t_game_EquipMon", this);
+        this.setDBType(EDBType.NOTHING);
     }
     public Object getPlayer_Id () {
         try{
@@ -84,11 +93,11 @@ public class EquipMon extends BasicDBObject implements ISaveInter {
     public void setType (int type) {
         basicDBObject.append("type",type);
     }
-    public int getEquipType () {
+    public int getEquipColmun () {
         try{
-            Object obj=basicDBObject.get("equipType");
+            Object obj=basicDBObject.get("equipColmun");
             if(obj!=null){
-                return (int)basicDBObject.get("equipType");
+                return (int)basicDBObject.get("equipColmun");
             }else{
                 return 0;
             }
@@ -96,8 +105,8 @@ public class EquipMon extends BasicDBObject implements ISaveInter {
             return 0;
         }
     }
-    public void setEquipType (int equipType) {
-        basicDBObject.append("equipType",equipType);
+    public void setEquipColmun (int equipColmun) {
+        basicDBObject.append("equipColmun",equipColmun);
     }
     public long getHp () {
         try{
@@ -143,5 +152,20 @@ public class EquipMon extends BasicDBObject implements ISaveInter {
     }
     public void setDef (long def) {
         basicDBObject.append("def",def);
+    }
+    public String getName () {
+        try{
+            Object obj=basicDBObject.get("name");
+            if(obj!=null){
+                return (String)basicDBObject.get("name");
+            }else{
+                return "null";
+            }
+        }catch(Exception e){
+            return "null";
+        }
+    }
+    public void setName (String name) {
+        basicDBObject.append("name",name);
     }
 }

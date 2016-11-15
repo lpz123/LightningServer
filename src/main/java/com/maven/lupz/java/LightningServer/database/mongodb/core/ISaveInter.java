@@ -5,5 +5,5 @@ import com.mongodb.BasicDBObject;
 public interface ISaveInter {
 
 	public BasicDBObject getBasicDBObject();
-	
+   
 }

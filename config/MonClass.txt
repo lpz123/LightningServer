@@ -21,10 +21,11 @@ public class com/maven/lupz/java/LightningServer/database/mongodb/mon/equip/Equi
 	private Object player_Id;//角色唯一id
 	private long goodsId;//物品模板id
 	private int type;//物品类型     1：武器，2：防具
-	private int equipType;//装备位置  0：未装备
+	private int equipColmun;//装备位置  0：未装备
 	private long hp;//物品增加血量
 	private long atk;//物品增加攻击力
 	private long def;//物品增加防御力
+	private String name;//名称
 }
 
 public class com/maven/lupz/java/LightningServer/database/mongodb/mon/fuwen/FuWenMon {
@@ -33,5 +34,6 @@ public class com/maven/lupz/java/LightningServer/database/mongodb/mon/fuwen/FuWe
 	private Object equipId;//装备上的武器唯一id
 	private long hp;//物品增加血量
 	private long atk;//物品增加攻击力
-	private long def;//物品增加防御力	
+	private long def;//物品增加防御力
+	private String name;//名称
 }
