@@ -41,7 +41,7 @@ public class MongoDao{
 	 * @param tableName 表名
 	 * @param map 条件  Map<String,Object>
 	 */
-	public static void deleteDB(String tableName,Map<String,Object> map){
+	public static void deleteData(String tableName,Map<String,Object> map){
 		long startTime=System.currentTimeMillis();
 		DBCollection collection=manager.getDBCollection(tableName);
 		System.out.println("删除“"+tableName+"”表前的count="+collection.count());
@@ -51,14 +51,15 @@ public class MongoDao{
 		System.out.println("删除“"+tableName+"”表后的count="+collection.count()+"    总耗时:"+(System.currentTimeMillis()-startTime));
 	}
 	
-	public static void deleteDB(String tableName,BasicDBObject newObj){
-		long startTime=System.currentTimeMillis();
-		DBCollection collection=manager.getDBCollection(tableName);
-		System.out.println("删除“"+tableName+"”表前的count="+collection.count());
-//		BasicDBObject cond=new BasicDBObject();
-//		cond.putAll(map);
-		manager.getDBCollection(tableName).remove(newObj);
-		System.out.println("删除“"+tableName+"”表后的count="+collection.count()+"    总耗时:"+(System.currentTimeMillis()-startTime));
+	/**
+	 * 依据_id删除对象
+	 * @param tableName
+	 * @param newObj
+	 */
+	public static void _deleteData(String tableName,ISaveInter newObj){
+		Map<String,Object> map=new HashMap<>();
+		map.put("_id", newObj.get_id());
+		deleteData(tableName,map);
 	}
 	
 	/**
@@ -71,9 +72,6 @@ public class MongoDao{
 		List<BasicDBObject> list=new ArrayList<>();
 		DBCursor curAll=manager.getDBCollection(tableName).find();
 		list.addAll((Collection<? extends BasicDBObject>) curAll.toArray());
-//		while(curAll.hasNext()){
-//			list.add((BasicDBObject) curAll.next());
-//		}
 		System.out.println("查询“"+tableName+"”表所有数据,共有:"+list.size()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
 		return list;
 	}
@@ -91,10 +89,7 @@ public class MongoDao{
 		cond.putAll(map);
 		DBCursor cur=manager.getDBCollection(tableName).find(cond);
 		list.addAll((Collection<? extends BasicDBObject>) cur.toArray());
-//		while(curOne.hasNext()){
-//			list.add((BasicDBObject) curOne.next());
-//		}
-		System.out.println("条件查询“"+tableName+"”表数据,共有:"+list.size()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
+		System.out.println("查询“"+tableName+"”表数据,共有:"+list.size()+"条数据    总耗时:"+(System.currentTimeMillis()-startTime));
 		return list;
 	}
 	
@@ -104,12 +99,12 @@ public class MongoDao{
 	 * @param queryMap 查询条件 当满足XXX=???的时候 <变量名，参数>
 	 * @param newObj 满足条件的数据改为当前newObj数据
 	 */
-	public static void updateDB(String tableName,Map<String,Object> queryMap,BasicDBObject newObj){
+	public static void updateDB(String tableName,Map<String,Object> queryMap,ISaveInter newObj){
 		long startTime=System.currentTimeMillis();
 		BasicDBObject query=new BasicDBObject();
 		query.putAll(queryMap);
-		manager.getDBCollection(tableName).updateMulti(query, new BasicDBObject("$set",newObj));
-		System.out.println("条件更新“"+tableName+"”表数据    总耗时:"+(System.currentTimeMillis()-startTime));
+		manager.getDBCollection(tableName).updateMulti(query, new BasicDBObject("$set",newObj.getBasicDBObject()));
+		System.out.println("更新“"+tableName+"”表数据    总耗时:"+(System.currentTimeMillis()-startTime));
 	}
 	
 	/**
@@ -117,14 +112,10 @@ public class MongoDao{
 	 * @param tableName
 	 * @param newObj
 	 */
-	public static void updateDB(String tableName,BasicDBObject newObj){
-		long startTime=System.currentTimeMillis();
+	public static void _updateDB(String tableName,ISaveInter newObj){
 		Map<String,Object> queryMap=new HashMap<>();
-		queryMap.put("_id", newObj.get("_id"));
-		BasicDBObject query=new BasicDBObject();
-		query.putAll(queryMap);
-		manager.getDBCollection(tableName).updateMulti(query, new BasicDBObject("$set",newObj));
-		System.out.println("条件更新“"+tableName+"”表数据    总耗时:"+(System.currentTimeMillis()-startTime));
+		queryMap.put("_id", newObj.get_id());
+		updateDB(tableName,queryMap,newObj);
 	}
 	
 }

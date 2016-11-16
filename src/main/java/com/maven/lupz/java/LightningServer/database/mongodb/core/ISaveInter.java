@@ -5,5 +5,16 @@ import com.mongodb.BasicDBObject;
 public interface ISaveInter {
 
 	public BasicDBObject getBasicDBObject();
+	
+	public Object get_id();
+	
+	public void insertDB();
+	
+	public void deleteDB();
+	
+	/**
+	 * @param bool  true马上更新   flase 延迟更新
+	 */
+	public void updateDB(boolean bool);
    
 }

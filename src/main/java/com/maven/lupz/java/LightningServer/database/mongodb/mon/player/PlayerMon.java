@@ -10,8 +10,9 @@ import com.maven.lupz.java.LightningServer.database.mongodb.core.EDBType;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;
 
 public class PlayerMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1479198519187L;
+    private static final long serialVersionUID = 1479287334538L;
     private BasicDBObject basicDBObject=null;
+    public static String tableName="t_game_PlayerMon";
     @Override
     public BasicDBObject getBasicDBObject() {
         return basicDBObject;
@@ -25,9 +26,6 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
         mon.basicDBObject=new BasicDBObject();
         return mon;
     }
-    public String toString() {
-        return getBasicDBObject().toMap().toString();
-    }
     public volatile EDBType dbType=EDBType.NOTHING;
     public synchronized void setDBType(EDBType dbType){
         this.dbType=dbType;
@@ -35,18 +33,26 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
     public EDBType getDBType(){
         return dbType;
     }
+    @Override
     public Object get_id() {
         return basicDBObject.get("_id");
     }
-    public void save(){
-        MongoDao.insertDB("t_game_PlayerMon", this);
+    @Override
+    public void insertDB(){
+        MongoDao.insertDB(tableName, this);
     }
-    public void delete(){
-        MongoDao.deleteDB("t_game_PlayerMon", this);
+    @Override
+    public void deleteDB(){
+        MongoDao._deleteData(tableName, this);
     }
-    public void update(){
-        MongoDao.updateDB("t_game_PlayerMon", this);
-        this.setDBType(EDBType.NOTHING);
+    @Override
+    public void updateDB(boolean bool){
+        if(bool){
+            MongoDao._updateDB(tableName, this);
+            this.setDBType(EDBType.NOTHING);
+        }else{
+            this.setDBType(EDBType.UPDATE);
+        }
     }
     public String getUserName () {
         try{
@@ -54,14 +60,17 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
             if(obj!=null){
                 return (String)basicDBObject.get("userName");
             }else{
-                return "null";
+                return null;
             }
         }catch(Exception e){
-            return "null";
+            return null;
         }
     }
     public void setUserName (String userName) {
         basicDBObject.append("userName",userName);
+    }
+    public void removeUserName () {
+        basicDBObject.remove("userName");
     }
     public String getRoleName () {
         try{
@@ -69,14 +78,17 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
             if(obj!=null){
                 return (String)basicDBObject.get("roleName");
             }else{
-                return "null";
+                return null;
             }
         }catch(Exception e){
-            return "null";
+            return null;
         }
     }
     public void setRoleName (String roleName) {
         basicDBObject.append("roleName",roleName);
+    }
+    public void removeRoleName () {
+        basicDBObject.remove("roleName");
     }
     public int getProfession () {
         try{
@@ -93,6 +105,9 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
     public void setProfession (int profession) {
         basicDBObject.append("profession",profession);
     }
+    public void removeProfession () {
+        basicDBObject.remove("profession");
+    }
     public long getHp () {
         try{
             Object obj=basicDBObject.get("hp");
@@ -107,6 +122,9 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
     }
     public void setHp (long hp) {
         basicDBObject.append("hp",hp);
+    }
+    public void removeHp () {
+        basicDBObject.remove("hp");
     }
     public long getAtk () {
         try{
@@ -123,6 +141,9 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
     public void setAtk (long atk) {
         basicDBObject.append("atk",atk);
     }
+    public void removeAtk () {
+        basicDBObject.remove("atk");
+    }
     public long getDef () {
         try{
             Object obj=basicDBObject.get("def");
@@ -137,5 +158,12 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
     }
     public void setDef (long def) {
         basicDBObject.append("def",def);
+    }
+    public void removeDef () {
+        basicDBObject.remove("def");
+    }
+    public String toString() {
+        String s=getBasicDBObject().toMap().toString();
+        return s;
     }
 }

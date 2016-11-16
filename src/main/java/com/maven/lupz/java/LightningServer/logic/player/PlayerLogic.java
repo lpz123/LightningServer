@@ -52,8 +52,8 @@ public class PlayerLogic implements LSCollectionManage{
 	private static void loginOther(Player player){
 		/*加载装备数据*/
 		Map<String,Object> mapEquip=new HashMap<>();
-		mapEquip.put("roleId", player.playerMon.get_id());
-		List<BasicDBObject> listEquip=MongoDao.selectDB("t_game_role_item", mapEquip);
+		mapEquip.put("player_Id", player.playerMon.get_id());
+		List<BasicDBObject> listEquip=MongoDao.selectDB("t_game_EquipMon", mapEquip);
 		ConcurrentHashMap<String,EquipMon> equipMonMap=new ConcurrentHashMap<>();
 		for(BasicDBObject obj:listEquip){
 			EquipMon mon=new EquipMon(obj);
@@ -64,8 +64,8 @@ public class PlayerLogic implements LSCollectionManage{
 		
 		/*加载物品数据*/
 		Map<String,Object> mapItem=new HashMap<>();
-		mapItem.put("roleId", player.playerMon.get_id());
-		List<BasicDBObject> listItem=MongoDao.selectDB("t_game_role_item", mapItem);
+		mapItem.put("player_Id", player.playerMon.get_id());
+		List<BasicDBObject> listItem=MongoDao.selectDB("t_game_ItemMon", mapItem);
 		ConcurrentHashMap<String,ItemMon> itemMonMap=new ConcurrentHashMap<>();
 		for(BasicDBObject obj:listItem){
 			ItemMon mon=new ItemMon(obj);
@@ -76,12 +76,16 @@ public class PlayerLogic implements LSCollectionManage{
 		
 		/*加载符文数据*/
 		Map<String,Object> mapFuWen=new HashMap<>();
-		mapFuWen.put("roleId", player.playerMon.get_id());
-		List<BasicDBObject> listFuWen=MongoDao.selectDB("t_game_role_item", mapFuWen);
+		mapFuWen.put("player_Id", player.playerMon.get_id());
+		List<BasicDBObject> listFuWen=MongoDao.selectDB("t_game_FuWenMon", mapFuWen);
 		ConcurrentHashMap<String,FuWenMon> fuWenMonMap=new ConcurrentHashMap<>();
 		for(BasicDBObject obj:listFuWen){
 			FuWenMon mon=new FuWenMon(obj);
 			fuWenMonMap.put(mon.get_id().toString(), mon);
+			if(mon.getEquipId()!=null){
+				EquipMon em=player.equipMonMap.get(mon.getEquipId().toString());
+				em.getFuWenList().add(mon);
+			}
 		}
 		player.fuWenMonMap.clear();
 		player.fuWenMonMap.putAll(fuWenMonMap);

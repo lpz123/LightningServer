@@ -1,39 +1,40 @@
-public class com/maven/lupz/java/LightningServer/database/mongodb/mon/player/PlayerMon {
-	private String userName;//帐号名
-	private String roleName;//角色名
-	private int profession;//职业
-	private long hp;//血量
-	private long atk;//攻击力
-	private long def;//防御力
+$class com/maven/lupz/java/LightningServer/database/mongodb/mon/player/PlayerMon {
+	String userName;//帐号名
+	String roleName;//角色名
+	int profession;//职业
+	long hp;//血量
+	long atk;//攻击力
+	long def;//防御力
 }
-        
-public class com/maven/lupz/java/LightningServer/database/mongodb/mon/item/ItemMon {
-	private Object player_Id;//角色唯一id
-	private long goodsId;//物品模板id
-	private int useType;//1：直接使用    2：不可使用
-	private String name;//名称
-	private long hp;//物品增加血量
-	private long atk;//物品增加攻击力
-	private long def;//物品增加防御力
-}
-
-public class com/maven/lupz/java/LightningServer/database/mongodb/mon/equip/EquipMon {
-	private Object player_Id;//角色唯一id
-	private long goodsId;//物品模板id
-	private int type;//物品类型     1：武器，2：防具
-	private int equipColmun;//装备位置  0：未装备
-	private long hp;//物品增加血量
-	private long atk;//物品增加攻击力
-	private long def;//物品增加防御力
-	private String name;//名称
+     
+$class com/maven/lupz/java/LightningServer/database/mongodb/mon/item/ItemMon {
+	Object player_Id;//角色唯一id
+	long goodsId;//物品模板id
+	int useType;//1：直接使用    2：不可使用
+	String name;//名称
+	long hp;//物品增加血量
+	long atk;//物品增加攻击力
+	long def;//物品增加防御力
 }
 
-public class com/maven/lupz/java/LightningServer/database/mongodb/mon/fuwen/FuWenMon {
-	private Object player_Id;//角色唯一id
-	private long goodsId;//物品模板id
-	private Object equipId;//装备上的武器唯一id
-	private long hp;//物品增加血量
-	private long atk;//物品增加攻击力
-	private long def;//物品增加防御力
-	private String name;//名称
+$class com/maven/lupz/java/LightningServer/database/mongodb/mon/equip/EquipMon {
+	Object player_Id;//角色唯一id
+	long goodsId;//物品模板id
+	int type;//物品类型     1：武器，2：防具
+	int equipColmun;//装备位置  0：未装备
+	long hp;//物品增加血量
+	long atk;//物品增加攻击力
+	long def;//物品增加防御力
+	String name;//名称
+	List<com.maven.lupz.java.LightningServer.database.mongodb.mon.fuwen.FuWenMon> fuWenList;
+}
+
+$class com/maven/lupz/java/LightningServer/database/mongodb/mon/fuwen/FuWenMon {
+	Object player_Id;//角色唯一id
+	long goodsId;//物品模板id
+	Object equipId;//装备上的武器唯一id
+	long hp;//物品增加血量
+	long atk;//物品增加攻击力
+	long def;//物品增加防御力
+	String name;//名称
 }

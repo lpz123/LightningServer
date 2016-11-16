@@ -23,23 +23,23 @@ public class Player {
 	 * 可用作定时更新 Update操作
 	 */
 	public void save(){
-		MongoDao.updateDB("t_game_role", playerMon);//存储角色数据
+		playerMon.updateDB(true);//存储角色数据
 		
 		for(EquipMon em:equipMonMap.values()){//存储装备数据
 			if(em.getDBType()==EDBType.UPDATE){
-				em.update();
+				em.updateDB(true);
 			}
 		}
 		
 		for(ItemMon im:itemMonMap.values()){//存储道具数据
 			if(im.getDBType()==EDBType.UPDATE){
-				im.update();
+				im.updateDB(true);
 			}
 		}
 		
 		for(FuWenMon fwm:fuWenMonMap.values()){//存储符文数据
 			if(fwm.getDBType()==EDBType.UPDATE){
-				fwm.update();
+				fwm.updateDB(true);
 			}
 		}
 		
