@@ -31,7 +31,7 @@ public class PlayerLogic implements LSCollectionManage{
 			Map<String,Object> map=new HashMap<>();
 			map.put("_id", new ObjectId(roleId));
 			
-			List<BasicDBObject> list=MongoDao.selectDB("t_game_PlayerMon", map);
+			List<BasicDBObject> list=MongoDao.selectDB(PlayerMon.tableName, map);
 			for(BasicDBObject obj:list){
 				PlayerMon playerMon=new PlayerMon(obj);
 				player=new Player();
