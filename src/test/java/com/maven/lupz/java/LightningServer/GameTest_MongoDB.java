@@ -97,7 +97,7 @@ public class GameTest_MongoDB {
 			pm.setDef(16);
 			break;
 		}
-		pm.insertDB();
+		pm.insertDB(true);
 		
 		System.out.println("创建成功 角色id为:"+pm.get_id());
 	}
@@ -285,7 +285,7 @@ public class GameTest_MongoDB {
 			switch(choose1){
 			case 1:
 				player.itemMonMap.remove(choose);
-				im.deleteDB();
+				im.deleteDB(true);
 				ran=false;
 				break;
 			case 2:
@@ -317,10 +317,10 @@ public class GameTest_MongoDB {
 				if(choose1==1){
 					for(FuWenMon fwm:em.fuWenList){
 						player.fuWenMonMap.remove(fwm.get_id().toString());
-						fwm.deleteDB();
+						fwm.deleteDB(true);
 					}
 					player.equipMonMap.remove(choose);
-					em.deleteDB();
+					em.deleteDB(true);
 					ran=false;
 					continue;
 				}else{
@@ -335,7 +335,7 @@ public class GameTest_MongoDB {
 			switch(choose1){
 			case 1:
 				player.equipMonMap.remove(choose);
-				em.deleteDB();
+				em.deleteDB(true);
 				ran=false;
 				break;
 			case 2:
@@ -366,7 +366,7 @@ public class GameTest_MongoDB {
 			switch(choose1){
 			case 1:
 				player.fuWenMonMap.remove(choose);
-				fwm.deleteDB();
+				fwm.deleteDB(true);
 				ran=false;
 				break;
 			case 2:
@@ -522,7 +522,7 @@ public class GameTest_MongoDB {
 			item.setHp((int)Math.random()*9);
 			item.setAtk((int)Math.random()*7);
 			item.setDef((int)Math.random()*5);
-			item.insertDB();
+			item.insertDB(true);
 			player.itemMonMap.put(item.get_id().toString(), item);
 		}else if(mnum==1){//掉装备
 			EquipMon equip=EquipMon.create();
@@ -534,7 +534,7 @@ public class GameTest_MongoDB {
 			equip.setAtk((int)Math.random()*100);//物品增加攻击力
 			equip.setDef((int)Math.random()*100);//物品增加防御力
 			equip.setName("万能装备");
-			equip.insertDB();
+			equip.insertDB(true);
 			player.equipMonMap.put(equip.get_id().toString(), equip);
 		}else if(mnum==2){//掉符文
 			FuWenMon fuWen=FuWenMon.create();
@@ -544,7 +544,7 @@ public class GameTest_MongoDB {
 			fuWen.setAtk((int)Math.random()*10);//物品增加攻击力
 			fuWen.setDef((int)Math.random()*10);//物品增加防御力
 			fuWen.setName("万能符文");
-			fuWen.insertDB();
+			fuWen.insertDB(true);
 			player.fuWenMonMap.put(fuWen.get_id().toString(), fuWen);
 		}
 	}

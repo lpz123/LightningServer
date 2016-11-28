@@ -8,9 +8,9 @@ public interface ISaveInter {
 	
 	public Object get_id();
 	
-	public void insertDB();
+	public void insertDB(boolean bool);
 	
-	public void deleteDB();
+	public void deleteDB(boolean bool);
 	
 	/**
 	 * @param bool  true马上更新   flase 延迟更新

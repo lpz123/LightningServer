@@ -114,13 +114,23 @@ public class CreateMonBaseClass {
 				writeFile(in, "    }\n");
 				
 				writeFile(in, "    @Override\n");
-				writeFile(in, "    public void insertDB(){\n");//增
-				writeFile(in, "        MongoDao.insertDB(tableName, this);\n");
+				writeFile(in, "    public void insertDB(boolean bool){\n");//增
+				writeFile(in, "        if(bool){\n");
+				writeFile(in, "            MongoDao.insertDB(tableName, this);\n");
+				writeFile(in, "            this.setDBType(EDBType.NOTHING);\n");
+				writeFile(in, "        }else{\n");
+				writeFile(in, "            this.setDBType(EDBType.INSERT);\n");
+				writeFile(in, "        }\n");
 				writeFile(in, "    }\n");
 			    
 				writeFile(in, "    @Override\n");
-				writeFile(in, "    public void deleteDB(){\n");//删
-				writeFile(in, "        MongoDao._deleteData(tableName, this);\n");
+				writeFile(in, "    public void deleteDB(boolean bool){\n");//删
+				writeFile(in, "        if(bool){\n");
+				writeFile(in, "            MongoDao._deleteData(tableName, this);\n");
+				writeFile(in, "            this.setDBType(EDBType.NOTHING);\n");
+				writeFile(in, "        }else{\n");
+				writeFile(in, "            this.setDBType(EDBType.DELETE);\n");
+				writeFile(in, "        }\n");
 				writeFile(in, "    }\n");
 			    
 				writeFile(in, "    @Override\n");

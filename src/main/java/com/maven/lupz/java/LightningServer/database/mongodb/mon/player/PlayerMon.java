@@ -10,7 +10,7 @@ import com.maven.lupz.java.LightningServer.database.mongodb.core.EDBType;
 import com.maven.lupz.java.LightningServer.database.mongodb.core.MongoDao;
 
 public class PlayerMon extends BasicDBObject implements ISaveInter {
-    private static final long serialVersionUID = 1479287334538L;
+    private static final long serialVersionUID = 1480302479110L;
     private BasicDBObject basicDBObject=null;
     public static String tableName="t_game_PlayerMon";
     @Override
@@ -38,12 +38,22 @@ public class PlayerMon extends BasicDBObject implements ISaveInter {
         return basicDBObject.get("_id");
     }
     @Override
-    public void insertDB(){
-        MongoDao.insertDB(tableName, this);
+    public void insertDB(boolean bool){
+        if(bool){
+            MongoDao.insertDB(tableName, this);
+            this.setDBType(EDBType.NOTHING);
+        }else{
+            this.setDBType(EDBType.INSERT);
+        }
     }
     @Override
-    public void deleteDB(){
-        MongoDao._deleteData(tableName, this);
+    public void deleteDB(boolean bool){
+        if(bool){
+            MongoDao._deleteData(tableName, this);
+            this.setDBType(EDBType.NOTHING);
+        }else{
+            this.setDBType(EDBType.DELETE);
+        }
     }
     @Override
     public void updateDB(boolean bool){
